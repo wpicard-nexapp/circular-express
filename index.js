@@ -7,26 +7,31 @@ const someObject = {
   "bar": "baz"
 }
 
+const manyObjects = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  }
+];
 
-function gimmeSome() {
-  return someObject;
+
+function joinObjects(objects) {
+  return objects.map((o) => ({
+    ...o,
+    someObject: calculateSomeObject()
+  }))
 }
 
+function calculateSomeObject() {
+  return someObject
+}
 
 app.post('/foo', (req, res) => {
   const response = {
-    manyObjects: [
-      {
-        id: 1,
-        someObject: gimmeSome(),
-      },
-      {
-        id: 2,
-        someObject: gimmeSome()
-      }
-    ]
+    manyObjects: joinObjects(manyObjects)
   }
-
   res.json(response)
 })
 
